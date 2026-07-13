@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+from streamlit_extras.app_logo import add_logo
 from dotenv import load_dotenv
 
 
@@ -17,7 +18,27 @@ from typing import Dict
 load_dotenv()
 
 # Configuración del navegador (Título e ícono de la pestaña)
-st.set_page_config(page_title="Agente Parker 🕷️", page_icon="🕷️")
+st.set_page_config(page_title="Agente de viajes Parker 🕷️", page_icon="🕷️")
+
+st.title("🕷️ Agente de viajes en Oaxaca Parker")
+st.write("Bienvenido al agente de viajes Parker, tu asistente virtual para planificar tus aventuras en el bello estado de Oaxaca México. Parker está diseñado para ayudarte a encontrar información sobre nuestros paquetes de viaje, destinos y servicios. Simplemente ingresa tu consulta y Parker te proporcionará respuestas precisas y útiles.")
+
+st.image("Oaxaca.jpg", use_container_width=True)
+
+# st.markdown(
+#     """
+#     <style>
+#     [data-testid="stAppViewContainer"] {
+#         background-image: linear-gradient(rgba(14, 17, 23, 0.85), rgba(14, 17, 23, 0.85)), 
+#                           url("https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Oaxaca_en_la_noche.jpg/1200px-Oaxaca_en_la_noche.jpg");
+#         background-size: cover !important;
+#         background-position: center !important;
+#         background-attachment: fixed !important;
+#     }
+#     </style>
+#     """,
+#     unsafe_allow_html=True
+# )
 
 
 # Configuración del rag
@@ -48,7 +69,7 @@ def inicializar_agente_y_datos():
     # Limpiar los documentos eliminando saltos de línea y espacios innecesarios
     clean_docs = [
         Document(
-            page_content=" ".join(doc.page_content.split()),
+            page_content=" ".join(doc.page_content.replace("-","-").split()),
             metadata=doc.metadata
         )
         for doc in docs
@@ -56,7 +77,7 @@ def inicializar_agente_y_datos():
     
     # Dividir los documentos en fragmentos más pequeños para mejorar la recuperación de información
     text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1200,
+        chunk_size=1300,
         chunk_overlap=200
     )
     documents = text_splitter.split_documents(clean_docs)
@@ -68,14 +89,14 @@ def inicializar_agente_y_datos():
     vectorstore = FAISS.from_documents(documents, model_embeddings)
     
     retriever = vectorstore.as_retriever(
-        search_kwargs={"k": 3},
+        search_kwargs={"k": 5},
         search_type="similarity"
     )
     
     #  Prompt para el RAG (Recuperación Augmentada de Generación)
     prompt_rag = ChatPromptTemplate.from_messages([
         ("system", """
-Eres el especialista en RH de la empresa Parker la cual es una agencia de turismo en Oaxaca.
+Eres el especialista de la empresa Parker la cual es una agencia de turismo en Oaxaca.
 Responde de forma clara, natural y sutil usando SOLO el contecto proporcionado
 
 Reglas:
@@ -124,6 +145,38 @@ def busqueda_de_respuestas(pregunta: str) -> Dict:
             "documentos_relacionados": related_docs,
             "documentos_encontrados": True}
     
-st.title("🕷️ Agente de viajes Parker")
-st.write("Bienvenido al agente de viajes Parker, tu asistente virtual para planificar tus aventuras. Parker está diseñado para ayudarte a encontrar información sobre nuestros paquetes de viaje, destinos y servicios. Simplemente ingresa tu consulta y Parker te proporcionará respuestas precisas y útiles.")
+st.markdown("### 📌 Preguntas Frecuentes ")
+col_a, col_b, col_c = st.columns(3)
+
+pregunta_a_ejecutar = None
+
+with col_a:
+    if st.button("📋 ¿Cuáles son las políticas?"):
+        pregunta_a_ejecutar = "cuales son las politicas de la empresa?"
+with col_b:
+    if st.button("💰 ¿Precios de paquetes?"):
+        pregunta_a_ejecutar = "Cuáles son los precios de los paquetes de tours?"
+with col_c:
+    if st.button("🗺️ ¿Itinerarios disponibles?"):
+        pregunta_a_ejecutar = "Cuáles son los itinerarios de los tours?"
+
+st.write("---")
+
+pregunta_usuario = st.text_input("Haz tu pregunta aquí:", placeholder="¿Cuáles son los precios de los paquetes de tours?")
+
+# Si la caja tiene texto y el usuario presiona Enter, se dispara el agente
+if pregunta_usuario:
+    pregunta_a_ejecutar = pregunta_usuario
+    # Bloque visual de carga (Spinner)
+if pregunta_a_ejecutar:
+    with st.spinner("Buscando respuestas..."):
+        
+        resultado = busqueda_de_respuestas(pregunta_a_ejecutar)
+
+    st.markdown("#### 🤖 AGENTE PARKER:")
+    st.markdown(resultado['respuesta'])
+    # st.markdown(f"### 💬 Tu pregunta: *{pregunta_a_ejecutar}*")
+    # st.success(f"**🤖 AGENTE PARKER:**\n\n{resultado['respuesta']}")
+      
+       
 
