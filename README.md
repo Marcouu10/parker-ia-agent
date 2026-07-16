@@ -44,7 +44,7 @@ Después de esos pasos primero hice las pruebas en mi archivo ipynb y después m
 **Despliegue en OCI**
 Por último desplegue mi proyecto en la nube de oracle, cree una instancia, la configure con la dirección que daba y la desplegue de forma permamente, claro que en la terminal de oracle también tuve que instalar las dependencias
 
-**Ejemplos de interacción del agente**
+5. Ejemplos de interacción del agente
 "Hay alguna politica de descuentos?"
 Respuesta:
 🤖 AGENTE PARKER:
@@ -67,3 +67,15 @@ ADICIONAL: Se hzo una prueba para probar al agente preguntando quien es Leo Mess
 🤖 AGENTE PARKER:
 
 No tengo esa información
+
+6. Evidencia de funcionamiento en OCI
+<img width="942" height="927" alt="image" src="https://github.com/user-attachments/assets/923dd8d1-0264-41e3-a200-bb7ba5b3593e" />
+
+<img width="815" height="788" alt="image" src="https://github.com/user-attachments/assets/e6813231-ee7e-46c9-8eb2-c355f08dfd93" />
+
+<img width="1608" height="797" alt="image" src="https://github.com/user-attachments/assets/c7a57509-917e-4966-b8e5-95be44fa7025" />
+
+
+
+
+
