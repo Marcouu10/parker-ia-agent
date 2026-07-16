@@ -43,4 +43,27 @@ Después de esos pasos primero hice las pruebas en mi archivo ipynb y después m
 
 **Despliegue en OCI**
 Por último desplegue mi proyecto en la nube de oracle, cree una instancia, la configure con la dirección que daba y la desplegue de forma permamente, claro que en la terminal de oracle también tuve que instalar las dependencias
-La liga para el proyecto es:http://159.54.139.0:8501/
+
+**Ejemplos de interacción del agente**
+"Hay alguna politica de descuentos?"
+Respuesta:
+🤖 AGENTE PARKER:
+
+Sí, tenemos políticas de descuentos especiales. Ofrecemos tarifas preferenciales bajo los siguientes criterios, que no son acumulables:
+
+*   **Grupos:** 10% de descuento automático a partir de 8 adultos reservados juntos.
+*   **Adultos Mayores:** 15% de descuento presentando credencial vigente de INAPAM (aplica solo en tours de un día).
+
+"Cuáles son los precios de los paquetes de tours?"
+Respuesta:
+🤖 AGENTE PARKER:
+
+Tenemos dos paquetes completos:
+
+*   El Paquete "Oaxaca Express" (3 Días / 2 Noches) tiene un precio de $5,800 MXN por persona en ocupación doble.
+*   El Paquete "Aventura y Tradición" (5 Días / 4 Noches) tiene un precio de $11,200 MXN por persona en ocupación doble.
+
+ADICIONAL: Se hzo una prueba para probar al agente preguntando quien es Leo Messi, a lo que responde:
+🤖 AGENTE PARKER:
+
+No tengo esa información
